@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glosario Interactivo de Ciberseguridad</title>
+<style>
+:root{--bg:#07111f;--panel:#101f33;--panel2:#142841;--cyan:#55e6e0;--blue:#6aa8ff;--text:#f2f7ff;--muted:#afc0d5;--pink:#ff78bd}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at 15% 10%,#12365a 0,transparent 32%),radial-gradient(circle at 85% 80%,#2a174c 0,transparent 28%),var(--bg);color:var(--text);min-height:100vh}
+button{font:inherit;cursor:pointer}
+.hero{padding:30px 6vw 22px;position:relative;overflow:hidden;border-bottom:1px solid #29435e}
+.topline{color:var(--cyan);font-weight:800;letter-spacing:.18em;font-size:.78rem;text-transform:uppercase}
+h1{font-size:clamp(2.2rem,5vw,4.5rem);line-height:1.02;margin:15px 0 12px;max-width:850px}
+h1 span{color:var(--cyan)}
+.intro{color:var(--muted);font-size:1.05rem;max-width:700px;line-height:1.6}
+.hero-art{position:absolute;right:8%;top:30px;font-size:clamp(5rem,13vw,10rem);opacity:.13;animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-12px) rotate(4deg)}}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:20px 6vw}
+#search{flex:1;min-width:200px;background:#0d1b2d;border:1px solid #31506f;border-radius:12px;padding:13px 15px;color:white;outline:none}
+#search:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #55e6e022}
+.pill,.action{border:1px solid #365472;background:#142841;color:var(--text);border-radius:12px;padding:11px 14px;transition:.2s}
+.pill:hover,.action:hover{transform:translateY(-2px);border-color:var(--cyan)}
+.progress-wrap{padding:0 6vw 20px;color:var(--muted);font-size:.85rem}
+.progress{height:6px;background:#1b3048;border-radius:9px;margin-top:8px;overflow:hidden}
+.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--blue));transition:width .3s}
+main{padding:0 6vw 50px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:8px 0 18px}
+h2{font-size:1.45rem;margin:0}
+.section-head p{color:var(--muted);margin:6px 0 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.term-card{position:relative;text-align:left;min-height:178px;border:1px solid #294660;border-radius:18px;padding:18px;background:linear-gradient(145deg,#132841,#0b1929);color:var(--text);overflow:hidden;transition:transform .22s,border-color .22s,box-shadow .22s}
+.term-card:hover{transform:translateY(-5px);border-color:var(--cyan);box-shadow:0 12px 30px #0004}
+.term-card .num{font-size:.75rem;color:var(--cyan);letter-spacing:.12em;font-weight:800}
+.term-card .emoji{font-size:2rem;display:block;margin:13px 0 8px}
+.term-card strong{display:block;font-size:1.07rem}
+.term-card small{display:block;color:var(--muted);margin-top:7px;line-height:1.4}
+.term-card .open{position:absolute;right:15px;top:15px;color:var(--cyan)}
+footer{text-align:center;color:var(--muted);padding:25px;border-top:1px solid #243b55;font-size:.9rem}
+dialog{border:1px solid #4b7192;border-radius:22px;background:#0b1929;color:var(--text);width:min(780px,92vw);max-height:88vh;padding:0;box-shadow:0 30px 100px #000b}
+dialog::backdrop{background:#020711cc;backdrop-filter:blur(6px)}
+.modal-head{padding:22px 24px;background:linear-gradient(120deg,#163554,#241d48);display:flex;align-items:start;gap:16px}
+.modal-icon{font-size:3rem}
+.modal-head h2{font-size:1.8rem;margin:4px 0}
+.modal-head p{color:#c4d5e8;margin:5px 0 0}
+.close{margin-left:auto;background:#ffffff12;color:white;border:1px solid #ffffff30;border-radius:10px;padding:8px 12px}
+.modal-body{padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.info-box{background:#10243a;border:1px solid #28445f;border-radius:15px;padding:16px}
+.info-box h3{margin:0 0 8px;font-size:.98rem;color:var(--cyan)}
+.info-box p{margin:0;color:#d7e3f1;line-height:1.55}
+.reference{display:flex;align-items:center;justify-content:center;min-height:130px;background:linear-gradient(145deg,#102941,#171c3b);border-radius:14px;font-size:4.5rem;border:1px dashed #456782;position:relative;overflow:hidden}
+.reference:after{content:"IMAGEN DE REFERENCIA";position:absolute;bottom:10px;font-size:.62rem;letter-spacing:.12em;color:#9fb4cb}
+.modal-foot{padding:0 24px 24px;display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap}
+.quiz{margin-top:34px;padding:24px;border-radius:20px;background:linear-gradient(120deg,#102b42,#211d40);border:1px solid #365573}
+.quiz h2{margin-bottom:8px}.quiz p{color:var(--muted)}
+.answers{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.answers button{background:#0d1b2d;border:1px solid #45617d;color:white;border-radius:12px;padding:11px 14px}
+.answers button:hover{border-color:var(--cyan)}
+#feedback{margin-top:12px;font-weight:700;min-height:24px}
+@media(max-width:600px){.hero{padding-top:25px}.hero-art{right:3%;top:50px;opacity:.08}.modal-body{grid-template-columns:1fr}.modal-head{padding:18px}.modal-body{padding:18px}.modal-foot{padding:0 18px 18px}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-art" aria-hidden="true">🛡️</div>
+  <div class="topline">GUÍA INTERACTIVA · SEGURIDAD DIGITAL</div>
+  <h1>Glosario de <span>ciberseguridad</span></h1>
+  <p class="intro">Explora amenazas digitales, descubre cómo funcionan y aprende hábitos para proteger tus cuentas, dispositivos e información. Selecciona cualquier tarjeta para abrir su ficha.</p>
+</header>
+<div class="toolbar">
+  <input id="search" type="search" placeholder="🔎 Buscar un término..." aria-label="Buscar un término">
+  <button class="pill" id="shuffle">✦ Explorar al azar</button>
+  <button class="pill" id="showAll">▦ Ver todos</button>
+</div>
+<div class="progress-wrap">
+  <span id="count">17 términos para explorar</span> · <span id="visited">0 vistos</span>
+  <div class="progress"><div id="progressFill"></div></div>
+</div>
+<main>
+  <div class="section-head">
+    <div><h2>Biblioteca de amenazas y defensas</h2><p>Aprende un concepto a la vez.</p></div>
+  </div>
+  <section class="grid" id="grid" aria-label="Términos de ciberseguridad"></section>
+  <section class="quiz">
+    <div class="topline">MINI RETO</div>
+    <h2>¿Qué harías tú?</h2>
+    <p id="question">Recibes un mensaje que dice que tu cuenta será bloqueada y te pide abrir un enlace desconocido. ¿Qué deberías hacer?</p>
+    <div class="answers" id="answers">
+      <button data-correct="false">Abrirlo rápidamente</button>
+      <button data-correct="true">No abrirlo y verificar por un canal oficial</button>
+      <button data-correct="false">Compartirlo con tus contactos</button>
+    </div>
+    <div id="feedback" role="status"></div>
+    <button class="action" id="nextQuiz">Siguiente reto →</button>
+  </section>
+</main>
+<footer>Piensa antes de hacer clic · Usa contraseñas únicas · Activa la autenticación multifactor</footer>
+<dialog id="modal">
+  <div class="modal-head">
+    <div class="modal-icon" id="mEmoji">🔐</div>
+    <div><div class="topline" id="mCategory">CONCEPTO</div><h2 id="mTitle">Término</h2><p id="mShort"></p></div>
+    <button class="close" id="close" aria-label="Cerrar ficha">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="info-box"><h3>¿Qué significa?</h3><p id="mDefinition"></p></div>
+    <div class="info-box"><h3>Ejemplo cotidiano</h3><p id="mExample"></p></div>
+    <div class="info-box"><h3>¿Cómo protegerte?</h3><p id="mDefense"></p></div>
+    <div class="reference" id="mReference" aria-label="Imagen ilustrativa">🛡️</div>
+  </div>
+  <div class="modal-foot">
+    <button class="action" id="prev">← Anterior</button>
+    <button class="action" id="next">Siguiente →</button>
+  </div>
+</dialog>
+<script>
+const terms = [
+{term:"Carding",emoji:"💳",category:"Fraude financiero",short:"Uso fraudulento de datos de tarjetas.",definition:"Actividad delictiva en la que se usan datos de tarjetas de pago robados para intentar realizar compras o transacciones no autorizadas.",example:"Una persona detecta compras que no reconoce en el estado de cuenta de su tarjeta.",defense:"No compartas datos bancarios por mensajes; activa alertas de movimientos y contacta a tu banco si ves cargos desconocidos."},
+{term:"Phishing",emoji:"🎣",category:"Engaño digital",short:"Mensajes falsos que buscan robar información.",definition:"Intento de engañar a una persona mediante correos, páginas o mensajes que imitan a organizaciones legítimas para obtener contraseñas o datos privados.",example:"Un correo que parece ser de tu escuela te pide iniciar sesión en una página extraña.",defense:"Revisa el remitente y el dominio, evita abrir enlaces inesperados y entra a los sitios escribiendo su dirección oficial."},
+{term:"Fraping",emoji:"👤",category:"Suplantación en redes",short:"Publicar desde la cuenta ajena sin permiso.",definition:"Acceder a una cuenta o perfil de otra persona y publicar contenido haciéndose pasar por ella, sin su consentimiento.",example:"Alguien deja una publicación ofensiva desde una sesión que quedó abierta en una computadora compartida.",defense:"Cierra sesión en dispositivos compartidos, usa bloqueo de pantalla y activa la autenticación multifactor."},
+{term:"Smishing",emoji:"📱",category:"Engaño por SMS",short:"Phishing mediante mensajes de texto.",definition:"Forma de phishing que utiliza SMS o mensajes de texto para convencer a la víctima de revelar información o visitar enlaces peligrosos.",example:"Un SMS falso afirma que hay un paquete retenido y solicita pagar una tarifa desde un enlace.",defense:"No pulses enlaces inesperados ni respondas con datos personales. Verifica directamente en la aplicación o web oficial."},
+{term:"Vishing",emoji:"📞",category:"Engaño por voz",short:"Estafas por llamadas telefónicas.",definition:"Fraude que usa llamadas de voz para hacerse pasar por bancos, soporte técnico u otras entidades y obtener información confidencial.",example:"Una llamada dice ser del banco y pide el código de seguridad recibido por SMS.",defense:"Nunca compartas contraseñas ni códigos de verificación por llamada. Cuelga y llama al número oficial."},
+{term:"Pharming",emoji:"🧭",category:"Redirección fraudulenta",short:"Llevarte a una web falsa aunque parezca correcta.",definition:"Ataque que redirige a una persona desde un sitio legítimo hacia una página fraudulenta, por ejemplo mediante manipulación de DNS o del dispositivo.",example:"Escribes la dirección de un sitio conocido, pero terminas en una copia falsa que solicita tus datos.",defense:"Mantén el dispositivo actualizado, usa conexiones seguras y comprueba el dominio antes de introducir información."},
+{term:"Malware",emoji:"🦠",category:"Software malicioso",short:"Programa diseñado para causar daño o acceder sin permiso.",definition:"Nombre general para programas creados para dañar dispositivos, espiar, robar datos o permitir accesos no autorizados.",example:"Una aplicación descargada de una página desconocida instala software no deseado.",defense:"Descarga aplicaciones de fuentes oficiales, actualiza el sistema y utiliza herramientas de seguridad confiables."},
+{term:"Ransomware",emoji:"🔒",category:"Extorsión digital",short:"Malware que bloquea o cifra archivos para exigir un pago.",definition:"Tipo de malware que impide acceder a archivos o sistemas, a menudo cifrándolos, y exige un rescate para intentar recuperarlos.",example:"Una computadora muestra un aviso de que los archivos están bloqueados y exige dinero.",defense:"Haz copias de seguridad desconectadas o protegidas, actualiza tus equipos y no abras adjuntos inesperados."},
+{term:"Spyware",emoji:"🕵️",category:"Espionaje digital",short:"Software que recopila información sin permiso.",definition:"Programa que vigila la actividad de un dispositivo y recopila datos sin el conocimiento o consentimiento adecuado del usuario.",example:"Una aplicación sospechosa recopila información sobre el uso del dispositivo sin explicarlo claramente.",defense:"Revisa permisos, elimina aplicaciones desconocidas y mantén el sistema actualizado."},
+{term:"Keylogging",emoji:"⌨️",category:"Captura de teclas",short:"Registro de lo que una persona escribe.",definition:"Técnica de registrar pulsaciones del teclado. Puede utilizarse con fines legítimos de supervisión autorizada, pero también para robar contraseñas y datos.",example:"Un programa malicioso registra lo que escribes al iniciar sesión.",defense:"Evita programas dudosos, usa autenticación multifactor y analiza el equipo con una herramienta de seguridad confiable."},
+{term:"Botnet",emoji:"🤖",category:"Dispositivos comprometidos",short:"Red de equipos controlados sin permiso.",definition:"Conjunto de dispositivos infectados que un atacante controla a distancia y puede coordinar para enviar spam, saturar servicios u otras actividades maliciosas.",example:"Muchos dispositivos comprometidos envían solicitudes a un sitio hasta dejarlo fuera de servicio.",defense:"Actualiza dispositivos y router, cambia contraseñas predeterminadas y desinstala software sospechoso."},
+{term:"Spoofing",emoji:"🎭",category:"Suplantación",short:"Falsificar una identidad o dirección digital.",definition:"Técnica en la que alguien falsifica información identificativa, como el remitente de un correo, un número de teléfono o una dirección de red, para parecer confiable.",example:"El identificador de llamada parece mostrar el nombre de una institución conocida, pero la llamada es falsa.",defense:"No confíes solo en el nombre o número que aparece. Confirma la identidad por un canal independiente."},
+{term:"Sniffing",emoji:"📡",category:"Tráfico de red",short:"Observación del tráfico que circula por una red.",definition:"Captura y análisis de paquetes de datos que viajan por una red. Puede servir para diagnosticar redes, pero también usarse indebidamente para observar información.",example:"En una red insegura, alguien intenta observar datos que otros dispositivos transmiten sin protección.",defense:"Usa sitios HTTPS, evita realizar operaciones sensibles en redes públicas desconocidas y utiliza una VPN confiable cuando corresponda."},
+{term:"Ingeniería social",emoji:"🧠",category:"Manipulación psicológica",short:"Convencer a alguien para que revele información o actúe.",definition:"Conjunto de técnicas que explotan emociones como urgencia, miedo o confianza para lograr que una persona comparta datos o realice acciones inseguras.",example:"Alguien se hace pasar por un técnico y presiona para que le reveles tu contraseña.",defense:"Detente ante la urgencia, verifica la identidad y consulta a la organización por un medio oficial."},
+{term:"Credential stuffing",emoji:"🔑",category:"Ataque a cuentas",short:"Probar contraseñas filtradas en otros servicios.",definition:"Ataque automatizado que intenta entrar a cuentas usando combinaciones de usuario y contraseña filtradas en otros sitios.",example:"Una contraseña reutilizada tras una filtración permite que alguien intente acceder a otra cuenta tuya.",defense:"Usa una contraseña única por servicio, considera un gestor de contraseñas y activa MFA."},
+{term:"Cifrado",emoji:"🔐",category:"Protección de datos",short:"Transformar datos para que no se lean sin autorización.",definition:"Proceso que convierte información legible en datos protegidos mediante un algoritmo y una clave, para que solo quien tenga la autorización adecuada pueda recuperarla.",example:"Una aplicación de mensajería cifra una conversación para protegerla durante la transmisión.",defense:"Usa servicios y dispositivos con cifrado actualizado, protege tus claves y guarda copias de seguridad seguras."},
+{term:"Autenticación multifactor (MFA)",emoji:"🛡️",category:"Defensa de cuentas",short:"Verificar la identidad con dos o más factores.",definition:"Método de inicio de sesión que combina al menos dos tipos distintos de prueba, como algo que sabes (contraseña), tienes (llave de seguridad) o eres (biometría).",example:"Después de escribir tu contraseña, confirmas el acceso con una aplicación autenticadora o una llave de seguridad.",defense:"Activa MFA en correo, redes sociales y cuentas importantes. Prefiere llaves de seguridad o aplicaciones autenticadoras cuando estén disponibles."}
+];
+const grid=document.getElementById('grid'), search=document.getElementById('search'), modal=document.getElementById('modal');
+let current=0; const visited=new Set();
+function render(){
+ const q=search.value.trim().toLowerCase();
+ const filtered=terms.map((t,i)=>({...t,index:i})).filter(t=>(t.term+" "+t.short+" "+t.category).toLowerCase().includes(q));
+ grid.innerHTML=filtered.map(t=>`<button class="term-card" data-index="${t.index}"><span class="num">TÉRMINO ${(t.index+1).toString().padStart(2,'0')}</span><span class="open">↗</span><span class="emoji">${t.emoji}</span><strong>${t.term}</strong><small>${t.short}</small></button>`).join('');
+ grid.querySelectorAll('.term-card').forEach(b=>b.addEventListener('click',()=>openTerm(Number(b.dataset.index))));
+ document.getElementById('count').textContent=`${filtered.length} término${filtered.length===1?'':'s'} para explorar`;
+}
+function openTerm(i){
+ current=(i+terms.length)%terms.length; const t=terms[current];visited.add(current);
+ document.getElementById('mEmoji').textContent=t.emoji;document.getElementById('mCategory').textContent=t.category.toUpperCase();
+ document.getElementById('mTitle').textContent=t.term;document.getElementById('mShort').textContent=t.short;
+ document.getElementById('mDefinition').textContent=t.definition;document.getElementById('mExample').textContent=t.example;document.getElementById('mDefense').textContent=t.defense;document.getElementById('mReference').textContent=t.emoji;
+ document.getElementById('visited').textContent=`${visited.size} vistos`;document.getElementById('progressFill').style.width=`${visited.size/terms.length*100}%`;
+ if(!modal.open)modal.showModal();
+}
+search.addEventListener('input',render);
+document.getElementById('close').addEventListener('click',()=>modal.close());
+document.getElementById('prev').addEventListener('click',()=>openTerm(current-1));
+document.getElementById('next').addEventListener('click',()=>openTerm(current+1));
+document.getElementById('shuffle').addEventListener('click',()=>openTerm(Math.floor(Math.random()*terms.length)));
+document.getElementById('showAll').addEventListener('click',()=>{search.value='';render();window.scrollTo({top:document.querySelector('main').offsetTop-10,behavior:'smooth'});});
+modal.addEventListener('click',e=>{if(e.target===modal)modal.close()});
+const quizzes=[
+{q:"Recibes un mensaje que dice que tu cuenta será bloqueada y te pide abrir un enlace desconocido. ¿Qué deberías hacer?",a:["Abrirlo rápidamente","No abrirlo y verificar por un canal oficial","Compartirlo con tus contactos"],correct:1,why:"¡Correcto! La urgencia y los enlaces inesperados son señales de alerta. Verifica desde la aplicación o web oficial."},
+{q:"Una persona que dice ser del soporte técnico te pide tu contraseña. ¿Qué haces?",a:["Se la doy para que ayude","Le pido que espere y verifico por un canal oficial","Publico la contraseña en el chat del equipo"],correct:1,why:"Bien hecho. El personal legítimo no debería pedirte tu contraseña. Verifica la solicitud por un medio oficial."},
+{q:"¿Cuál es una buena forma de proteger tus cuentas si una contraseña se filtra?",a:["Usar la misma contraseña en todos lados","Desactivar las alertas","Usar contraseñas únicas y activar MFA"],correct:2,why:"¡Exacto! Las contraseñas únicas y MFA dificultan que una filtración comprometa otras cuentas."},
+{q:"¿Qué es el cifrado?",a:["Una forma de proteger datos para que no se lean sin la clave","Un tipo de llamada falsa","Un programa para borrar archivos"],correct:0,why:"¡Correcto! El cifrado protege la confidencialidad de la información."}
+];
+let qi=0;
+function loadQuiz(){const q=quizzes[qi];document.getElementById('question').textContent=q.q;document.getElementById('feedback').textContent='';document.getElementById('answers').innerHTML=q.a.map((a,i)=>`<button data-i="${i}">${a}</button>`).join('');document.querySelectorAll('#answers button').forEach(b=>b.addEventListener('click',()=>{const right=Number(b.dataset.i)===q.correct;document.getElementById('feedback').textContent=right?q.why:'No exactamente. Piensa en la opción que protege tus datos y verifica la información por un canal oficial.';document.getElementById('feedback').style.color=right?'#55e6e0':'#ffb3c9';}));}
+document.getElementById('nextQuiz').addEventListener('click',()=>{qi=(qi+1)%quizzes.length;loadQuiz()});
+render();loadQuiz();
+</script>
+</body>
+</html>
